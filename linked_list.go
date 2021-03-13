@@ -18,7 +18,7 @@ func (l *LinkedList) add(el interface{}) {
 	panic("implement me")
 }
 
-func (l *LinkedList) put(el interface{}, index int) {
+func (l *LinkedList) insert(el interface{}, index int) {
 	panic("implement me")
 }
 
