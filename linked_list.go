@@ -14,22 +14,26 @@ func NewLinkedList() *LinkedList {
 	return &LinkedList{}
 }
 
-func (l *LinkedList) add(el interface{}) {
+func (l *LinkedList) Add(el interface{}) {
 	panic("implement me")
 }
 
-func (l *LinkedList) put(el interface{}, index int) {
+func (l *LinkedList) Insert(index int, el interface{}) {
 	panic("implement me")
 }
 
-func (l *LinkedList) get(index int) interface{} {
+func (l *LinkedList) Get(index int) interface{} {
 	panic("implement me")
 }
 
-func (l *LinkedList) find(el interface{}) (index int, ok bool) {
+func (l *LinkedList) Find(el interface{}) (index int, ok bool) {
 	panic("implement me")
 }
 
-func (l *LinkedList) remove(index int) {
+func (l *LinkedList) Remove(index int) {
 	panic("implement me")
+}
+
+func (l *LinkedList) Length() int {
+	return l.length
 }
