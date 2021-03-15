@@ -60,5 +60,57 @@ func BenchmarkDoubleLinkedList(b *testing.B) {
 
 func BenchmarkLinkedList(b *testing.B) {
 	doBench(b, NewLinkedList())
+}
 
+func testList(t *testing.T, l List) {
+	l.Add(123)
+	l.Add(1)
+	l.Add(2)
+	l.Add(3)
+	l.Add(4)
+
+	if l.Get(0) != 123 {
+		t.Fatalf("Expected 123, got %v", l.Get(0))
+	}
+
+	if l.Get(1) != 1 {
+		t.Fatalf("Expected 1, got %v", l.Get(1))
+	}
+
+	if l.Get(2) != 2 {
+		t.Fatalf("Expected 2, got %v", l.Get(2))
+	}
+
+	l.Remove(1)
+
+	if l.Get(0) != 123 {
+		t.Fatalf("Expected 123, got %v", l.Get(0))
+	}
+	if l.Get(1) != 2 {
+		t.Fatalf("Expected 2, got %v", l.Get(1))
+	}
+
+	l.Remove(0)
+
+	if l.Get(0) != 2 {
+		t.Fatalf("Expected 2, got %v", l.Get(0))
+	}
+
+	l.Insert(2, 555)
+	if l.Get(2) != 555 {
+		t.Fatalf("Expected 555, got %v", l.Get(3))
+	}
+
+	if n, ok := l.Find(555); !ok || n != 2 {
+		t.Fatalf("Expected 2, got %v", n)
+	}
+
+}
+
+func TestLinkedList(t *testing.T) {
+	testList(t, NewLinkedList())
+}
+
+func TestDoubleLinkedList(t *testing.T) {
+	testList(t, NewDoubleLinkedList())
 }
