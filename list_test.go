@@ -98,7 +98,7 @@ func testList(t *testing.T, l List) {
 
 	l.Insert(2, 555)
 	if l.Get(2) != 555 {
-		t.Fatalf("Expected 555, got %v", l.Get(3))
+		t.Fatalf("Expected 555, got %v", l.Get(2))
 	}
 
 	if n, ok := l.Find(555); !ok || n != 2 {
