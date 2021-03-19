@@ -44,12 +44,12 @@ func doBench(b *testing.B, list List) {
 	})
 	b.Run("deletionAgn", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
-			list.Find(list.Length() / 2)
+			list.Remove(list.Length() / 2)
 		}
 	})
 	b.Run("deletionEnd", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
-			list.Find(list.Length() - 1)
+			list.Remove(list.Length() - 1)
 		}
 	})
 }
