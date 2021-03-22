@@ -1,7 +1,5 @@
 package ta_lab3
 
-import "fmt"
-
 type BiDirectionalNode struct {
 	el   interface{}
 	next *BiDirectionalNode
@@ -17,19 +15,6 @@ type DoubleLinkedList struct {
 func NewDoubleLinkedList() *DoubleLinkedList {
 	sentinelNode := &BiDirectionalNode{}
 	return &DoubleLinkedList{sentinelNode, sentinelNode, 0}
-}
-
-func (node *BiDirectionalNode) PrintBiNode() {
-	fmt.Printf("%v, %T| %v, %v\n", node.el, node.el, node.next, node.prev)
-}
-
-func (l *DoubleLinkedList) PrintDoubleLinkedList() {
-	node := l.firstSentinel
-	for node.next != nil {
-		node = node.next
-		node.PrintBiNode()
-	}
-	fmt.Println()
 }
 
 func NewBiDirectionalNode(el interface{}) *BiDirectionalNode {
@@ -55,7 +40,7 @@ func (l *DoubleLinkedList) Insert(index int, el interface{}) {
 	if index >= l.Length() {
 		l.Add(el)
 	} else {
-		node := l.GetNode(index)
+		node := l.getNode(index)
 		newNode := NewBiDirectionalNode(el)
 
 		node.prev.next = newNode
@@ -69,15 +54,15 @@ func (l *DoubleLinkedList) Insert(index int, el interface{}) {
 }
 
 func (l *DoubleLinkedList) Get(index int) interface{} {
-	return l.GetNode(index).el
+	return l.getNode(index).el
 }
 
-func (l *DoubleLinkedList) GetNode(index int) *BiDirectionalNode {
+func (l *DoubleLinkedList) getNode(index int) *BiDirectionalNode {
 	if index >= l.Length() || index < 0 {
 		panic("index out of bounds")
 	}
 
-	node := l.First()
+	node := l.first()
 	for i := 0; i < index; i++ {
 		node = node.next
 	}
@@ -97,7 +82,7 @@ func (l *DoubleLinkedList) Find(el interface{}) (index int, ok bool) {
 }
 
 func (l *DoubleLinkedList) Remove(index int) {
-	node := l.GetNode(index)
+	node := l.getNode(index)
 	if index == l.Length()-1 {
 		l.last = node.prev
 	} else {
@@ -112,7 +97,7 @@ func (l *DoubleLinkedList) Length() int {
 	return l.length
 }
 
-func (l *DoubleLinkedList) First() *BiDirectionalNode {
+func (l *DoubleLinkedList) first() *BiDirectionalNode {
 	if l.firstSentinel.next == nil {
 		return l.firstSentinel
 	} else {
@@ -123,4 +108,12 @@ func (l *DoubleLinkedList) First() *BiDirectionalNode {
 
 func (l *DoubleLinkedList) Last() *BiDirectionalNode {
 	return l.last
+}
+
+func (l *DoubleLinkedList) Copy() List {
+	list := NewDoubleLinkedList()
+	for i := 0; i < l.length; i++ {
+		list.Add(l.Get(i))
+	}
+	return list
 }

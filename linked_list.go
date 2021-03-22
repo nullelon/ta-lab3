@@ -17,13 +17,13 @@ func NewLinkedList() *LinkedList {
 
 func (l *LinkedList) Add(el interface{}) {
 	if l.length == 0 {
-		l.AddFirst(el)
+		l.addFirst(el)
 		return
 	}
 	l.Insert(l.length, el)
 }
 
-func (l *LinkedList) AddFirst(el interface{}) {
+func (l *LinkedList) addFirst(el interface{}) {
 	l.first = &Node{
 		el:   el,
 		next: l.first,
@@ -36,11 +36,17 @@ func (l *LinkedList) AddFirst(el interface{}) {
 
 func (l *LinkedList) Insert(index int, el interface{}) {
 	if index == 0 {
-		l.AddFirst(el)
+		l.addFirst(el)
 		return
 	}
 
-	prev := l.getNode(index - 1)
+	var prev *Node
+	if index == l.length {
+		prev = l.last
+	} else {
+		prev = l.getNode(index - 1)
+	}
+
 	node := &Node{
 		el:   el,
 		next: prev.next,
@@ -83,7 +89,13 @@ func (l *LinkedList) Remove(index int) {
 		l.length--
 		return
 	}
-	prev := l.getNode(index - 1)
+	var prev *Node
+	if index == l.length-1 {
+		prev = l.last
+	} else {
+		prev = l.getNode(index - 1)
+	}
+
 	prev.next = prev.next.next
 	if l.length-1 == index {
 		l.last = prev
@@ -93,4 +105,12 @@ func (l *LinkedList) Remove(index int) {
 
 func (l *LinkedList) Length() int {
 	return l.length
+}
+
+func (l *LinkedList) Copy() List {
+	list := &LinkedList{}
+	for i := 0; i < l.length; i++ {
+		list.Add(l.Get(i))
+	}
+	return list
 }

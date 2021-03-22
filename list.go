@@ -7,4 +7,5 @@ type List interface {
 	Find(el interface{}) (index int, ok bool)
 	Remove(index int)
 	Length() int
+	Copy() List
 }

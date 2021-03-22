@@ -1,65 +1,101 @@
 package ta_lab3
 
 import (
+	"fmt"
 	"math/rand"
+	"strconv"
 	"testing"
+	"time"
 )
 
 func fillWithRandom(list List) {
-	for i := 0; i < 10000; i++ {
+	for i := 0; i < 1000; i++ {
 		list.Add(rand.Int())
 	}
 }
 
-func doBench(b *testing.B, list List) {
+func TestLists(t *testing.T) {
+	benchList(NewLinkedList(), "LinkedList")
+	fmt.Println()
+
+	benchList(NewDoubleLinkedList(), "DoubleLinkedList")
+}
+
+func benchList(list List, listName string) {
 	fillWithRandom(list)
 	middleEl := list.Get(list.Length() / 2)
-	b.StopTimer()
-	b.ResetTimer()
-	b.StartTimer()
-	b.Run("indexing", func(b *testing.B) {
-		for i := 0; i < b.N; i++ {
-			list.Find(middleEl)
-		}
-	})
-	b.Run("insertionFront", func(b *testing.B) {
-		for i := 0; i < b.N; i++ {
-			list.Insert(0, 0)
-		}
-	})
-	b.Run("insertionAgn", func(b *testing.B) {
-		for i := 0; i < b.N; i++ {
-			list.Insert(list.Length()/2, 0)
-		}
-	})
-	b.Run("insertionEnd", func(b *testing.B) {
-		for i := 0; i < b.N; i++ {
-			list.Insert(list.Length()-1, 0)
-		}
-	})
-	b.Run("deletionFront", func(b *testing.B) {
-		for i := 0; i < b.N; i++ {
-			list.Remove(0)
-		}
-	})
-	b.Run("deletionAgn", func(b *testing.B) {
-		for i := 0; i < b.N; i++ {
-			list.Remove(list.Length() / 2)
-		}
-	})
-	b.Run("deletionEnd", func(b *testing.B) {
-		for i := 0; i < b.N; i++ {
-			list.Remove(list.Length() - 1)
-		}
-	})
-}
 
-func BenchmarkDoubleLinkedList(b *testing.B) {
-	doBench(b, NewDoubleLinkedList())
-}
+	iterations := 1000
 
-func BenchmarkLinkedList(b *testing.B) {
-	doBench(b, NewLinkedList())
+	var total int64
+	for i := 0; i < iterations; i++ {
+		l := list.Copy()
+		t := time.Now()
+		l.Find(middleEl)
+		total += time.Since(t).Nanoseconds()
+
+	}
+	fmt.Println("find \t" + listName + "\t" + strconv.FormatInt(total/int64(iterations), 10) + "ms")
+
+	total = 0
+	for i := 0; i < iterations; i++ {
+		l := list.Copy()
+		t := time.Now()
+		l.Insert(0, 123)
+		total += time.Since(t).Nanoseconds()
+
+	}
+	fmt.Println("insertFront \t" + listName + "\t" + strconv.FormatInt(total/int64(iterations), 10) + "ms")
+
+	total = 0
+	for i := 0; i < iterations; i++ {
+		l := list.Copy()
+		t := time.Now()
+		l.Insert(l.Length()/2, 123)
+		total += time.Since(t).Nanoseconds()
+
+	}
+	fmt.Println("insertAgn \t" + listName + "\t" + strconv.FormatInt(total/int64(iterations), 10) + "ms")
+
+	total = 0
+	for i := 0; i < iterations; i++ {
+		l := list.Copy()
+		t := time.Now()
+		l.Insert(l.Length(), 123)
+		total += time.Since(t).Nanoseconds()
+
+	}
+	fmt.Println("insertBack \t" + listName + "\t" + strconv.FormatInt(total/int64(iterations), 10) + "ms")
+	total = 0
+	for i := 0; i < iterations; i++ {
+		l := list.Copy()
+		t := time.Now()
+		l.Remove(0)
+		total += time.Since(t).Nanoseconds()
+
+	}
+	fmt.Println("deletionFront \t" + listName + "\t" + strconv.FormatInt(total/int64(iterations), 10) + "ms")
+
+	total = 0
+	for i := 0; i < iterations; i++ {
+		l := list.Copy()
+		t := time.Now()
+		l.Remove(l.Length() / 2)
+		total += time.Since(t).Nanoseconds()
+
+	}
+	fmt.Println("deletionAgn \t" + listName + "\t" + strconv.FormatInt(total/int64(iterations), 10) + "ms")
+
+	total = 0
+	for i := 0; i < iterations; i++ {
+		l := list.Copy()
+		t := time.Now()
+		l.Remove(l.Length() - 1)
+		total += time.Since(t).Nanoseconds()
+
+	}
+	fmt.Println("deletionBack\t" + listName + "\t" + strconv.FormatInt(total/int64(iterations), 10) + "ms")
+
 }
 
 func testList(t *testing.T, l List) {
