@@ -1,5 +1,7 @@
 package ta_lab3
 
+import "fmt"
+
 type BiDirectionalNode struct {
 	el   interface{}
 	next *BiDirectionalNode
@@ -59,6 +61,7 @@ func (l *DoubleLinkedList) Get(index int) interface{} {
 
 func (l *DoubleLinkedList) getNode(index int) *BiDirectionalNode {
 	if index >= l.Length() || index < 0 {
+		fmt.Println("index = ! ", index, "| ! |  ", l.length)
 		panic("index out of bounds")
 	}
 
