@@ -93,12 +93,7 @@ func (l *LinkedList) Remove(index int) {
 		l.length--
 		return
 	}
-	var prev *Node
-	if index == l.length-1 {
-		prev = l.last
-	} else {
-		prev = l.getNode(index - 1)
-	}
+	prev := l.getNode(index - 1)
 
 	prev.next = prev.next.next
 	if l.length-1 == index {
