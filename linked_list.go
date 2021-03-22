@@ -53,7 +53,7 @@ func (l *LinkedList) Insert(index int, el interface{}) {
 	}
 	prev.next = node
 
-	if l.length-1 == index {
+	if l.length == index {
 		l.last = node
 	}
 	l.length++
@@ -72,8 +72,12 @@ func (l *LinkedList) getNode(index int) *Node {
 }
 
 func (l *LinkedList) Find(el interface{}) (index int, ok bool) {
-	for i := 0; i < l.length; i++ {
-		if el == l.Get(i) {
+	if l.length == 0 {
+		return 0, false
+	}
+	var n = l.first
+	for i := 0; n.next != nil; n = n.next {
+		if el == n.el {
 			return i, true
 		}
 	}
